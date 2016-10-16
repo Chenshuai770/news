@@ -86,9 +86,11 @@ public class TabNews extends BaseFragment {
                         @Override
                         public void run() {
                             //显示或隐藏刷新进度条
-                            mSrfLayout.setRefreshing(false);
+
                             mNewsTitle.add("新项目");
                             mNewsAdapter.notifyDataSetChanged();
+                           // mListView.setSelection(0);
+                            mSrfLayout.setRefreshing(false);
                             Toast.makeText(getActivity(), "已刷新", Toast.LENGTH_SHORT).show();
                         }
                     }, 2000);

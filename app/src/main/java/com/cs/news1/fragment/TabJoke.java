@@ -19,6 +19,6 @@ public class TabJoke extends BaseFragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootview=inflater.inflate(R.layout.fm_joke,container,false);
+        mRootview=inflater.inflate(R.layout.fm_joke, (ViewGroup) getActivity().findViewById(R.id.viewpager),false);//中间这个参数是试图组，再哪个里面的Activity
         return mRootview;
 }}

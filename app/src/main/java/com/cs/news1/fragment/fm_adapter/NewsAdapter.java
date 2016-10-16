@@ -61,6 +61,7 @@ public class NewsAdapter extends BaseAdapter {
             mViewHolder = new ViewHolder();
             view = mLayoutInflater.inflate(R.layout.item_news, viewGroup, false);
             mViewHolder.tvNewsTitle = (TextView) view.findViewById(R.id.tv_news_title);
+            mViewHolder.tvNewsTitle.setText(mList.get(i));
             view.setTag(mViewHolder);
         } else {
             mViewHolder = (ViewHolder) view.getTag();
