@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="5dp"
+    android:orientation="horizontal">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/item_joke_sdv"
+        android:layout_width="160dp"
+        android:layout_height="100dp"
+        fresco:placeholderImage="@mipmap/noloading" />
+
+    <TextView
+        android:id="@+id/item_joke_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="暂时没有数据暂时没有" />
+
+</LinearLayout>

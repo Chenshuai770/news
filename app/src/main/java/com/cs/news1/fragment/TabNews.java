@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.cs.news1.R;
 import com.cs.news1.base.BaseFragment;
-import com.cs.news1.fragment.fm_adapter.NewsAdapter;
+import com.cs.news1.fragment.fm_adapter.NewsAdapter.NewsAdapter;
 import com.jude.rollviewpager.OnItemClickListener;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.LoopPagerAdapter;

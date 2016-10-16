@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.cs.news1.R;
 import com.cs.news1.base.BaseFragment;
-import com.cs.news1.fragment.fm_adapter.PhotoAdapter;
+import com.cs.news1.fragment.fm_adapter.PhotoAdater.PhotoAdapter;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.cs.news1.fragment.fm_adapter;
+package com.cs.news1.fragment.fm_adapter.NewsAdapter;
 
 import android.content.Context;
 
