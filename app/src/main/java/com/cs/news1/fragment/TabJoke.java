@@ -22,7 +22,7 @@ import java.util.List;
 public class TabJoke extends BaseFragment {
     private View mRootview;
     private RecyclerView mRecyclerView;
-    private List<String> banner_url;
+    private List<String > banner_url;
 
     @Nullable
     @Override
@@ -30,14 +30,16 @@ public class TabJoke extends BaseFragment {
         mRootview = getActivity().getLayoutInflater().inflate(R.layout.fm_joke, (ViewGroup) getActivity().findViewById(R.id.viewpager), false);//中间这个参数是试图组，再哪个里面的Activity
         mRecyclerView = (RecyclerView) mRootview.findViewById(R.id.rl_joke);
         banner_url=new ArrayList<>();
-        banner_url.add("http://v3.qzone.cc/pic/201407/20/16/23/53cb7c88a9aef835.jpg!600x600.jpg");
-        banner_url.add("http://v3.qzone.cc/pic/201407/20/16/23/53cb7c88a9aef835.jpg!600x600.jpg");
-        banner_url.add("http://v3.qzone.cc/pic/201407/20/16/23/53cb7c88a9aef835.jpg!600x600.jpg");
-        banner_url.add("http://v3.qzone.cc/pic/201407/20/16/23/53cb7c88a9aef835.jpg!600x600.jpg");
+        banner_url.add("http://ww3.sinaimg.cn/large/610dc034jw1f8uxlbptw7j20ku0q1did.jpg");
+        banner_url.add("http://ww1.sinaimg.cn/large/610dc034jw1f8rgvvm5htj20u00u0q8s.jpg");
+        banner_url.add("http://ww3.sinaimg.cn/large/610dc034jw1f8qd9a4fx7j20u011hq78.jpg");
+        banner_url.add("http://ww2.sinaimg.cn/large/610dc034jw1f8o2ov8xi0j20u00u0q61.jpg");
+
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         JokeAdpter adpter=new JokeAdpter(getActivity(),banner_url);
         mRecyclerView.setAdapter(adpter);
+
 
         return mRootview;
     }

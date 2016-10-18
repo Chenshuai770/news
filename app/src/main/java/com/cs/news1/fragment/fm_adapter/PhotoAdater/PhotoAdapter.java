@@ -17,20 +17,33 @@ import java.util.List;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoViewholder> {
     private List<String> list;
     private Context context;
-    public PhotoAdapter(List<String > list,Context context) {
+  
+
+    public PhotoAdapter(List<String> list, Context context) {
         this.list = list;
-        this.context=context;
+        this.context = context;
     }
+
 
     @Override
     public PhotoViewholder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View root= LayoutInflater.from(context).inflate(R.layout.item_pic,null);
-        return new PhotoViewholder(root);
+        View root = LayoutInflater.from(context).inflate(R.layout.item_pic, parent, false);
+        return new PhotoViewholder(root, context);
+
     }
+  /*  private void updateItemtHeight(int height, View root) {
+
+        CardView cardView = (CardView)root .findViewById(R.id.item_photo_cardview);
+        View child = root.findViewById(R.id.item_photo_sdv);
+        CardView.LayoutParams layoutParams = (CardView.LayoutParams) child.getLayoutParams();
+        layoutParams.height = height;
+        cardView.updateViewLayout(child,layoutParams);
+    }*/
 
     @Override
     public void onBindViewHolder(PhotoViewholder holder, int position) {
-        //Bean.ResultsBean resultsBean=list.get(position);
+        //updateItemtHeight(200,holder.itemView);
+        holder.mpic.setImageURI(list.get(position));
 
     }
 
