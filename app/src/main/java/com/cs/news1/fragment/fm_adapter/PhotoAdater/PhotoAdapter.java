@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.cs.news1.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ import java.util.List;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoViewholder> {
     private List<String> list;
     private Context context;
+    private ArrayList heights;
   
 
     public PhotoAdapter(List<String> list, Context context) {
@@ -42,8 +44,22 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoViewholder> {
 
     @Override
     public void onBindViewHolder(PhotoViewholder holder, int position) {
-        //updateItemtHeight(200,holder.itemView);
         holder.mpic.setImageURI(list.get(position));
+        /*ViewGroup.LayoutParams params =  holder.itemView.getLayoutParams();//得到item的LayoutParams布局参数
+        params.height= (int) heights.get(position);
+        holder.itemView.setLayoutParams(params);//把params设置给itemView布局*/
+        //updateItemtHeight(200,holder.itemView);
+
+
+
+    }
+    private void getRadomHeight(List<String> lists){
+        this.list=lists;
+        heights=new ArrayList();
+        for (int i = 0; i <lists.size() ; i++) {
+            heights.add((int)(200+Math.random()*400));
+
+        }
 
     }
 
