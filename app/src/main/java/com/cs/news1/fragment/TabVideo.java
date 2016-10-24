@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.cs.news1.R;
 import com.cs.news1.base.BaseFragment;
-import com.cs.news1.bean.Bean;
+import com.cs.news1.entry.Bean;
 import com.cs.news1.fragment.fm_adapter.VideoAdater.VideoAdapter;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -49,7 +49,6 @@ public class TabVideo extends BaseFragment{
                     public void onError(Call call, Exception e, int id) {
                         Toast.makeText(getActivity(), "请求失败", Toast.LENGTH_SHORT).show();
                     }
-
                     @Override
                     public void onResponse(String response, int id) {
                         Log.d("TAT", response);

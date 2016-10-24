@@ -22,9 +22,11 @@ import android.widget.Toast;
 import com.cs.news1.R;
 import com.cs.news1.adpter.MyAdapter;
 import com.cs.news1.base.BaseFragment;
+import com.cs.news1.fragment.TabCook;
 import com.cs.news1.fragment.TabJoke;
 import com.cs.news1.fragment.TabNews;
 import com.cs.news1.fragment.TabPhoto;
+import com.cs.news1.fragment.TabRxjava;
 import com.cs.news1.fragment.TabVideo;
 
 import java.util.ArrayList;
@@ -148,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();  //初始化状态
         mDrawerLayout.addDrawerListener(mDrawerToggle); //将DrawerLayout与DrawerToggle绑定
 
-       View view=mNavigationView.inflateHeaderView(R.layout.draw_header);
+        View view=mNavigationView.inflateHeaderView(R.layout.draw_header);
         TextView userName= (TextView) view.findViewById(R.id.tv_header_content);
         userName.setText("安卓开发高手联盟");
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -192,12 +194,16 @@ public class MainActivity extends AppCompatActivity {
         mList_fm.add(new TabJoke());//将fragment添加到fragmentList的list容器里
         mList_fm.add(new TabPhoto());
         mList_fm.add(new TabVideo());
+        mList_fm.add(new TabCook());
+        mList_fm.add(new TabRxjava());
 
 
         mList_title.add("新闻");
         mList_title.add("笑话");
         mList_title.add("图片");
         mList_title.add("视频");
+        mList_title.add("食物");
+        mList_title.add("Rxjava");
 
         mAdapter=new MyAdapter(getSupportFragmentManager(),mList_fm,mList_title);
         vp_main.setAdapter(mAdapter);
