@@ -19,6 +19,6 @@ import rx.Observable;
 
 
 public interface ApiFood {
-        @GET("/api/cook/list")
+       @GET("/api/cook/list")
        Observable<Food> getData(@Query("page") int page, @Query("rows") int rows, @Query("id") int id);
 }

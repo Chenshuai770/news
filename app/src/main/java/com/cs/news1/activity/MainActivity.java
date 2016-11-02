@@ -28,6 +28,7 @@ import com.cs.news1.fragment.TabNews;
 import com.cs.news1.fragment.TabPhoto;
 import com.cs.news1.fragment.TabRxjava;
 import com.cs.news1.fragment.TabVideo;
+import com.cs.news1.fragment.TabWebview;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -196,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
         mList_fm.add(new TabVideo());
         mList_fm.add(new TabCook());
         mList_fm.add(new TabRxjava());
+        mList_fm.add(new TabWebview());
 
 
         mList_title.add("新闻");
@@ -204,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
         mList_title.add("视频");
         mList_title.add("食物");
         mList_title.add("Rxjava");
+        mList_title.add("webtest");
 
         mAdapter=new MyAdapter(getSupportFragmentManager(),mList_fm,mList_title);
         vp_main.setAdapter(mAdapter);

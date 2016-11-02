@@ -8,6 +8,17 @@
     <color name="green">#11ed0d</color>
     <color name="orgine">#d9e718</color>
     <color name="black">#1a1818</color>
-    <color name="grey">#898787</color>
-    <color name="white">#fff</color>
+
+    <color name="blueIndexStatus">#67A5EF</color>
+    <color name="blueStatus">#1680E2</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="dark">#424242</color>
+
+    <color name="grey">#8C8C8C</color>
+    <color name="line">#EEEEEE</color>
+    <color name="background">#F9F9FA</color>
+
+    <color name="greyBackground">#FFCFCFCF</color>
+
 </resources>
