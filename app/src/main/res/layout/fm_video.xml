@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TextView
-        android:gravity="center"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+
+    >
+
+    <Button
+        android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="视频"/>
-   <android.support.v7.widget.RecyclerView
-       android:id="@+id/rl_video"
+        android:text="缓存" />
 
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+    <Button
+        android:id="@+id/btn_clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除缓存" />
 
-   </android.support.v7.widget.RecyclerView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rl_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

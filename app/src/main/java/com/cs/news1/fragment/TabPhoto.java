@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.cs.news1.R;
 import com.cs.news1.base.BaseFragment;
-import com.cs.news1.entry.Bean;
+import com.cs.news1.entry.Photo;
 import com.cs.news1.fragment.fm_adapter.PhotoAdater.PhotoAdapter;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -31,7 +31,7 @@ public class TabPhoto extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private PhotoAdapter mPhotoAdapter;
-    private List<Bean.ResultsBean> mlist=new ArrayList<>();
+    private List<Photo.ResultsBean> mlist=new ArrayList<>();
 
     @Nullable
     @Override
@@ -56,7 +56,7 @@ public class TabPhoto extends BaseFragment {
                     public void onResponse(String response, int id) {
                         Log.d("TAT", response);
                         Gson gson = new Gson();
-                        Bean bean = gson.fromJson(response, Bean.class);
+                        Photo bean = gson.fromJson(response, Photo.class);
                         mlist.addAll(bean.getResults());
                         mPhotoAdapter.notifyDataSetChanged();
                     }

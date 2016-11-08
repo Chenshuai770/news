@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.cs.news1.R;
 import com.cs.news1.entry.JuheNews;
 import com.cs.news1.utils.PicassoUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class WebAdater  extends RecyclerView.Adapter<WebAdater.WebViewHodler>{
 
     public interface ItemClickListern{
         void ItemClick(View view,int possiton);
-        void ItemLongClick(View view,int possiton);
+
     }
     public void setOnItemClickListern(ItemClickListern listern){
         this.listern=listern;
@@ -35,12 +36,26 @@ public class WebAdater  extends RecyclerView.Adapter<WebAdater.WebViewHodler>{
         this.list = list;
     }
 
+    /**
+     * 回收资源
+     * @param parent
+     * @param viewType
+     * @return
+     */
+
     @Override
     public WebViewHodler onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.item_webivew,parent,false);
         return new WebViewHodler(view);
     }
 
+
+    @Override
+    public void onViewRecycled(WebViewHodler holder) {
+        super.onViewRecycled(holder);
+        //取消
+        Picasso.with(holder.imageView.getContext()).cancelRequest(holder.imageView);
+    }
     @Override
     public void onBindViewHolder(final WebViewHodler holder, final int position) {
         PicassoUtils.loadImageWithHodler1(context,list.get(position).getThumbnail_pic_s(),100,100,holder.imageView);
@@ -52,22 +67,22 @@ public class WebAdater  extends RecyclerView.Adapter<WebAdater.WebViewHodler>{
             public void onClick(View view) {
                 if (listern!=null) {
                     int position1 = holder.getLayoutPosition();
-                    listern.ItemClick(view,position);
+                    listern.ItemClick(holder.itemView,position1);
                 }
             }
         });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+       /* holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                int position1 = holder.getLayoutPosition();
+               // int position1 = holder.getLayoutPosition();
                 return false;
             }
-        });
+        });*/
     }
 
     @Override
     public int getItemCount() {
-        return list.size()== 0? 0:list.size();
+        return list.size();
     }
 
     class WebViewHodler extends RecyclerView.ViewHolder {

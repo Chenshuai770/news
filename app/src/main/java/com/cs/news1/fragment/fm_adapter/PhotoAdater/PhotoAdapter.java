@@ -7,9 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.cs.news1.R;
-import com.cs.news1.entry.Bean;
-import com.cs.news1.utils.PicassoUtils;
+import com.cs.news1.entry.Photo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,12 @@ import java.util.List;
  */
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoViewholder> {
-    private List<Bean.ResultsBean> list;
+    private List<Photo.ResultsBean> list;
     private Context context;
     private ArrayList heights;
   
 
-    public PhotoAdapter(List<Bean.ResultsBean> list, Context context) {
+    public PhotoAdapter(List<Photo.ResultsBean> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -51,7 +52,18 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoViewholder> {
         int width = wm.getDefaultDisplay().getWidth()/2-5;
         int height = wm.getDefaultDisplay().getHeight()/3;
 
-        PicassoUtils.loadImageWithHodler1(context,list.get(position).getUrl(),width,(int)(height+Math.random()*100),holder.imageView);
+        Glide.with(context)
+                .load(list.get(position).getUrl())
+                .override(width,(int)(height+Math.random()*100))
+                .placeholder(R.mipmap.noloading)
+                .error(R.mipmap.nosccess)
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(holder.imageView);
+
+
+     // PicassoUtils.loadImageWithHodler1(context,list.get(position).getUrl(),width,(int)(height+Math.random()*100),holder.imageView);
         /*ViewGroup.LayoutParams params =  holder.itemView.getLayoutParams();//得到item的LayoutParams布局参数
         params.height= (int) heights.get(position);
         holder.itemView.setLayoutParams(params);//把params设置给itemView布局*/
@@ -62,7 +74,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoViewholder> {
 
 
     }
-    private void getRadomHeight(List<Bean.ResultsBean> lists){
+    private void getRadomHeight(List<Photo.ResultsBean> lists){
         this.list=lists;
         heights=new ArrayList();
         for (int i = 0; i <lists.size() ; i++) {

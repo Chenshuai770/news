@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
-
         initView();
     }
 
@@ -119,8 +117,6 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/"));
                         startActivity(intent);
                         break;
-
-
                 }
 
                 return true;
