@@ -21,4 +21,8 @@
 
     <color name="greyBackground">#FFCFCFCF</color>
 
+    <color name="theamtextcolor">#222222</color>
+    <color name="gray">#999999</color>
+    <color name="theambacground">#f6f7f7</color>
+
 </resources>

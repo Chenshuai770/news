@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -13,12 +15,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.cs.news1.R;
 import com.cs.news1.adpter.MyAdapter;
 import com.cs.news1.base.BaseFragment;
@@ -29,11 +40,15 @@ import com.cs.news1.fragment.TabPhoto;
 import com.cs.news1.fragment.TabRxjava;
 import com.cs.news1.fragment.TabVideo;
 import com.cs.news1.fragment.TabWebview;
+import com.cs.news1.utils.GlideCircleTransform;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TabLayout tab_main;
     private ViewPager vp_main;
@@ -44,6 +59,18 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;//这个是箭头
     private NavigationView mNavigationView;
     private DrawerLayout mDrawerLayout;
+
+    private static final String CAMERA_DIR = "/dcim/";
+    private static final String albumName = "CameraSample";
+    private String mFilePath;
+    private ImageView headerphoto;
+    private TextView userName;
+
+    private RadioButton rb_main_btn1;
+    private RadioButton rb_main_btn2;
+    private RadioButton rb_main_btn3;
+    private RadioGroup rg_main_bottom;
+    private RelativeLayout rl_main_bottom;
 
 
     @Override
@@ -60,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         sheetDialogView.findViewById(R.id.dialog_item1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog ad=new AlertDialog.Builder(MainActivity.this).create();
+                AlertDialog ad = new AlertDialog.Builder(MainActivity.this).create();
                 ad.setTitle("AlertDialog");
                 ad.setIcon(R.mipmap.icon_touxiang);
                 ad.setMessage("我是消息内容");
@@ -81,12 +108,14 @@ public class MainActivity extends AppCompatActivity {
 
 
             }
-        }); sheetDialogView.findViewById(R.id.dialog_item2).setOnClickListener(new View.OnClickListener() {
+        });
+        sheetDialogView.findViewById(R.id.dialog_item2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(MainActivity.this, "你点击了2", Toast.LENGTH_SHORT).show();
             }
-        }); sheetDialogView.findViewById(R.id.dialog_item3).setOnClickListener(new View.OnClickListener() {
+        });
+        sheetDialogView.findViewById(R.id.dialog_item3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, "你点击了3", Toast.LENGTH_SHORT).show();
@@ -100,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mToolBar= (Toolbar) findViewById(R.id.tl_main);
+        mToolBar = (Toolbar) findViewById(R.id.tl_main);
         mNavigationView = (NavigationView) findViewById(R.id.nv_main);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_main);
 
@@ -109,12 +138,12 @@ public class MainActivity extends AppCompatActivity {
         mToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.action_bottosheetDialog:
                         showBottomSheetDialog();
                         break;
                     case R.id.action_about:
-                        Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/"));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/"));
                         startActivity(intent);
                         break;
                 }
@@ -129,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         此drawable在抽屉关闭时显示一个汉堡图标，当抽屉打开时显示一个箭头。 它在抽屉打开时在这两个状态之间动画。
         * */
         /*ActionBarDrawerToggle ( Activity activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes, int closeDrawerContentDescRes)*/
-        mDrawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,mToolBar,R.string.app_name,R.string.app_name){
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.app_name, R.string.app_name) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -147,15 +176,24 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();  //初始化状态
         mDrawerLayout.addDrawerListener(mDrawerToggle); //将DrawerLayout与DrawerToggle绑定
 
-        View view=mNavigationView.inflateHeaderView(R.layout.draw_header);
-        TextView userName= (TextView) view.findViewById(R.id.tv_header_content);
+        View view = mNavigationView.inflateHeaderView(R.layout.draw_header);
+        headerphoto = (ImageView) view.findViewById(R.id.iv_header_photo);
+        Glide.with(this).load(R.mipmap.icon_touxiang).transform(new GlideCircleTransform(MainActivity.this))
+                .override(100, 100)
+                .crossFade()
+                .into(headerphoto);
+        headerphoto.setOnClickListener(this);
+        userName = (TextView) view.findViewById(R.id.tv_header_content);
         userName.setText("安卓开发高手联盟");
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_item1:
-                        Toast.makeText(MainActivity.this, "1", Toast.LENGTH_SHORT).show();
+                        Glide.with(MainActivity.this).load(R.mipmap.icon_touxiang).transform(new GlideCircleTransform(MainActivity.this))
+                                .override(100, 100)
+                                .crossFade()
+                                .into(headerphoto);
                         return true;
                     case R.id.navigation_item2:
                         Toast.makeText(MainActivity.this, "2", Toast.LENGTH_SHORT).show();
@@ -172,10 +210,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_sub_item3:
                         Toast.makeText(MainActivity.this, "6", Toast.LENGTH_SHORT).show();
                         return true;
-
-
                 }
-
                 return true;
             }
         });
@@ -183,10 +218,10 @@ public class MainActivity extends AppCompatActivity {
 
         tab_main = (TabLayout) findViewById(R.id.tab_main);
         vp_main = (ViewPager) findViewById(R.id.vp_main);
-       // tab_main.setTabMode(TabLayout.MODE_SCROLLABLE);
+        // tab_main.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        mList_title=new ArrayList<>();
-        mList_fm=new ArrayList<>();
+        mList_title = new ArrayList<>();
+        mList_fm = new ArrayList<>();
         mList_fm.add(new TabNews());
         mList_fm.add(new TabJoke());//将fragment添加到fragmentList的list容器里
         mList_fm.add(new TabPhoto());
@@ -204,12 +239,120 @@ public class MainActivity extends AppCompatActivity {
         mList_title.add("Rxjava");
         mList_title.add("webtest");
 
-        mAdapter=new MyAdapter(getSupportFragmentManager(),mList_fm,mList_title);
+        mAdapter = new MyAdapter(getSupportFragmentManager(), mList_fm, mList_title);
         vp_main.setAdapter(mAdapter);
         tab_main.setupWithViewPager(vp_main);
         tab_main.setTabsFromPagerAdapter(mAdapter);//虽然过时了但是不能去掉，去掉后
         //如果是滑动操作的话没事，但是使用标签点击的时候就不行了。
 
 
+        mFilePath = Environment.getExternalStorageDirectory().getPath();
+        mFilePath = mFilePath + "/" + "temp.png";
+
+
+        rb_main_btn1 = (RadioButton) findViewById(R.id.rb_main_btn1);
+        rb_main_btn1.setOnClickListener(this);
+        rb_main_btn2 = (RadioButton) findViewById(R.id.rb_main_btn2);
+        rb_main_btn2.setOnClickListener(this);
+        rb_main_btn3 = (RadioButton) findViewById(R.id.rb_main_btn3);
+        rb_main_btn3.setOnClickListener(this);
+        rg_main_bottom = (RadioGroup) findViewById(R.id.rg_main_bottom);
+        rg_main_bottom.setOnClickListener(this);
+        rl_main_bottom = (RelativeLayout) findViewById(R.id.rl_main_bottom);
+        rl_main_bottom.setOnClickListener(this);
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_header_photo:
+                //设置contentView
+                View contentview = LayoutInflater.from(MainActivity.this).inflate(R.layout.popwidow, null);
+                final PopupWindow popupWindow = new PopupWindow(MainActivity.this);
+                popupWindow.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+                popupWindow.setHeight(200);
+                popupWindow.setFocusable(true);
+
+                popupWindow.setContentView(contentview);
+                //设置各个控件的点击响应
+                TextView cammer = (TextView) contentview.findViewById(R.id.tv_canmer);
+                cammer.setText(getResources().getString(R.string.canmer));
+                final TextView photo = (TextView) contentview.findViewById(R.id.tv_photo);
+                photo.setText(getResources().getString(R.string.photo));
+                cammer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //  Toast.makeText(MainActivity.this, "你点击canmer", Toast.LENGTH_SHORT).show();
+                        ImageFromCamera();
+                        popupWindow.dismiss();
+                    }
+                });
+                photo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Toast.makeText(MainActivity.this, "你点击photo", Toast.LENGTH_SHORT);
+                        ImageFromPhoto();
+                        popupWindow.dismiss();
+                    }
+                });
+                //显示PopupWindow
+                View rootview = LayoutInflater.from(MainActivity.this).inflate(R.layout.activity_main, null);
+                popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
+
+                break;
+
+        }
+
+    }
+
+    private void ImageFromPhoto() {
+        //ACTION_GET_CONTENT 可以自定义内容选择选项
+        Intent intet1 = new Intent(Intent.ACTION_GET_CONTENT);
+        intet1.setType("image/*");
+        startActivityForResult(intet1, 2);
+
+    }
+
+    private void ImageFromCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//调用系统相机
+        //直接使用，没有缩小
+        Uri photoUri = Uri.fromFile(new File(mFilePath));
+        //可以对系统存储路径EXTRA_OUTPUT进行修改
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+        startActivityForResult(intent, 1);  //用户点击了从相机获取
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            Glide.with(this)
+                    .load(mFilePath)
+                    .transform(new GlideCircleTransform(MainActivity.this))
+                    .override(100, 100)
+                    .crossFade()
+                    .into(headerphoto);
+
+        } else if (requestCode == 2) {
+            if (data == null) {
+                return;
+            } else {
+                Uri uri;
+                uri = data.getData();
+                Toast.makeText(this, uri.toString(), Toast.LENGTH_SHORT).show();
+                Glide.with(this)
+                        .load(uri)
+                        .transform(new GlideCircleTransform(MainActivity.this))
+                        .override(100, 100)
+                        .crossFade()
+                        .into(headerphoto);
+
+
+                //converUri(uri);
+            }
+        }
+    }
+
+
 }

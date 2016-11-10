@@ -71,13 +71,10 @@ public class TabVideo extends BaseFragment implements View.OnClickListener {
                                 mData.addAll(body.getResult().getData());
                                 mVideoAdapter.notifyDataSetChanged();
                             }
-
                         }
                     }
-
                     @Override
                     public void onFailure(Call<Web> call, Throwable t) {
-
                     }
                 });
 

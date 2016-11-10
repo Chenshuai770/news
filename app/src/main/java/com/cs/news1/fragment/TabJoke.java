@@ -17,6 +17,7 @@ import com.cs.news1.fragment.fm_adapter.JokeAdater.ApiJoke;
 import com.cs.news1.fragment.fm_adapter.JokeAdater.JokeAdpter;
 import com.cs.news1.views.EndLessOnScrollListener;
 import com.cs.news1.views.MyDecoration;
+import com.cs.news1.views.NetUtils;
 import com.youth.banner.Banner;
 
 import java.util.ArrayList;
@@ -94,8 +95,13 @@ public class TabJoke extends BaseFragment {
         recycle.setAdapter(adapter);
         //为RecyclerView添加HeaderView和FooterView
         setHeaderView(recycle);
-        setFooterView(recycle);
+        if (NetUtils.isConnected(getContext())) {
+            setFooterView(recycle);
+        }
+        if (!NetUtils.isConnected(getContext())) {
+           refresh.setVisibility(View.GONE);
 
+        }
 
         refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -225,7 +231,6 @@ public class TabJoke extends BaseFragment {
     }
     private void setFooterView(RecyclerView view) {
         View footer = LayoutInflater.from(getContext()).inflate(R.layout.item_joke_footer, view, false);
-
         adapter.setFooterView(footer);
 
     }
@@ -235,7 +240,6 @@ public class TabJoke extends BaseFragment {
     private void setHeaderView(RecyclerView view) {
         View header = LayoutInflater.from(getContext()).inflate(R.layout.item_joke_header, view, false);
         Banner banner = (Banner) header.findViewById(R.id.item_joke_banner);
-
         adapter.setHeaderView(header);
     }
 

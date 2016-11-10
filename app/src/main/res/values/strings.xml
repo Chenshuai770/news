@@ -9,6 +9,8 @@
         <item>科技</item>
         <item>历史</item>
     </array>
+    <string name="canmer">拍摄照片</string>
+    <string name="photo">从相册选择</string>
 
 
 </resources>
