@@ -3,6 +3,7 @@ package com.cs.news1.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,7 +44,11 @@ import com.cs.news1.fragment.TabWebview;
 import com.cs.news1.utils.GlideCircleTransform;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -245,9 +250,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tab_main.setTabsFromPagerAdapter(mAdapter);//虽然过时了但是不能去掉，去掉后
         //如果是滑动操作的话没事，但是使用标签点击的时候就不行了。
 
-
         mFilePath = Environment.getExternalStorageDirectory().getPath();
-        mFilePath = mFilePath + "/" + "temp.png";
+        mFilePath = mFilePath + "/" + "temp.jpeg";
+
+
+
 
 
         rb_main_btn1 = (RadioButton) findViewById(R.id.rb_main_btn1);
@@ -272,7 +279,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 popupWindow.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
                 popupWindow.setHeight(200);
                 popupWindow.setFocusable(true);
-
                 popupWindow.setContentView(contentview);
                 //设置各个控件的点击响应
                 TextView cammer = (TextView) contentview.findViewById(R.id.tv_canmer);
@@ -283,7 +289,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(View view) {
                         //  Toast.makeText(MainActivity.this, "你点击canmer", Toast.LENGTH_SHORT).show();
+
                         ImageFromCamera();
+
                         popupWindow.dismiss();
                     }
                 });
@@ -300,6 +308,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 popupWindow.showAtLocation(rootview, Gravity.BOTTOM, 0, 0);
 
                 break;
+            case R.id.rb_main_btn1:
+                vp_main.setTag(true);
+                vp_main.setCurrentItem(0);
+                break;
+
+
+            case R.id.rb_main_btn2:
+                vp_main.setTag(true);
+                vp_main.setCurrentItem(2);
+                break;
+
+            case R.id.rb_main_btn3:
+              Intent intent=new Intent(MainActivity.this,Personal.class);
+                startActivity(intent);
+                break;
+
 
         }
 
@@ -314,11 +338,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void ImageFromCamera() {
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//调用系统相机
-        //直接使用，没有缩小
+      /*  //直接使用，没有缩小
         Uri photoUri = Uri.fromFile(new File(mFilePath));
         //可以对系统存储路径EXTRA_OUTPUT进行修改
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);*/
         startActivityForResult(intent, 1);  //用户点击了从相机获取
 
     }
@@ -327,12 +352,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            Glide.with(this)
-                    .load(mFilePath)
-                    .transform(new GlideCircleTransform(MainActivity.this))
-                    .override(100, 100)
-                    .crossFade()
-                    .into(headerphoto);
+            String sdStatus = Environment.getExternalStorageState();
+            if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {// 检测sd是否可用
+
+                return;
+            }
+            Bundle bundle = data.getExtras();//获取二进制流;
+            Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
+            FileOutputStream b = null;
+            File file = new File("/sdcard/myImage/");
+            file.mkdirs();// 创建文件夹，名称为myimage
+
+            //照片的命名，目标文件夹下，以当前时间数字串为名称，即可确保每张照片名称不相同。
+            String str = null;
+            Date date = null;
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");//获取当前时间，进一步转化为字符串
+            date = new Date();
+            str = format.format(date);
+            String fileName = "/sdcard/myImage/" + str + ".jpg";
+
+            try {
+                b = new FileOutputStream(fileName);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);// 把数据写入文件.这里不写入数据会一直是原来的图片
+                Glide.with(this)
+                        .load(fileName)
+                        .transform(new GlideCircleTransform(MainActivity.this))
+                        .override(100, 100)
+                        .crossFade()
+                        .into(headerphoto);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
 
         } else if (requestCode == 2) {
             if (data == null) {
