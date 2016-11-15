@@ -19,15 +19,23 @@
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
             android:value="GlideModule"/>
+        <meta-data
+            android:name="com.cs.news1.glideCache.GlideConfiguration"
+            android:value="GlideModule"/>
         <activity android:name=".activity.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".activity.WebActivity"></activity>
         <activity android:name=".activity.Personal"/>
+        <activity android:name=".activity.PhotoActivity">
+
+
+        </activity>
     </application>
 
 </manifest>

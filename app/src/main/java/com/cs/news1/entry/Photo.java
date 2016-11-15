@@ -6,7 +6,7 @@ import java.util.List;
  * Created by chenshuai on 2016/11/8.
  */
 
-public class Photo {
+public class Photo{
 
     /**
      * error : false

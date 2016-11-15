@@ -1,5 +1,6 @@
 package com.cs.news1.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.cs.news1.R;
+import com.cs.news1.activity.PhotoActivity;
 import com.cs.news1.base.BaseFragment;
 import com.cs.news1.entry.Photo;
 import com.cs.news1.fragment.fm_adapter.PhotoAdater.PhotoAdapter;
+import com.cs.news1.utils.SpacesItemDecoration;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -32,6 +35,8 @@ public class TabPhoto extends BaseFragment {
     private RecyclerView mRecyclerView;
     private PhotoAdapter mPhotoAdapter;
     private List<Photo.ResultsBean> mlist=new ArrayList<>();
+    private List<String > myUrls=new ArrayList<String>();
+
 
     @Nullable
     @Override
@@ -42,6 +47,7 @@ public class TabPhoto extends BaseFragment {
         //CustomGridLayoutManager customGridLayoutManager=new CustomGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
+        mRecyclerView.addItemDecoration(new SpacesItemDecoration(4));
         final String url = "http://gank.io/api/data/福利/100/1";
         OkHttpUtils
                 .get()
@@ -58,15 +64,31 @@ public class TabPhoto extends BaseFragment {
                         Gson gson = new Gson();
                         Photo bean = gson.fromJson(response, Photo.class);
                         mlist.addAll(bean.getResults());
+                        for (int i = 0; i <mlist.size() ; i++) {
+                            myUrls.add(mlist.get(i).getUrl());
+                        }
                         mPhotoAdapter.notifyDataSetChanged();
                     }
                 });
+
 
 
         mPhotoAdapter = new PhotoAdapter(mlist, getActivity());
         mRecyclerView.setAdapter(mPhotoAdapter);
 //mRecyclerView.setLayoutFrozen(true);//禁止滑动呢
 //mRecyclerView.setNestedScrollingEnabled(false);
+        mPhotoAdapter.setOnItemClickLitener(new PhotoAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+               //Log.d("BBB",myUrls.size()+"");
+                Intent intent=new Intent(getContext(), PhotoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("myurl", (ArrayList<String>) myUrls);
+                bundle.putInt("pos",position);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         return view;
 
         }

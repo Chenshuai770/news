@@ -32,7 +32,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.cs.news1.R;
-import com.cs.news1.adpter.MyAdapter;
+import com.cs.news1.act_adpter.MyAdapter;
 import com.cs.news1.base.BaseFragment;
 import com.cs.news1.fragment.TabCook;
 import com.cs.news1.fragment.TabJoke;
@@ -397,8 +397,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .override(100, 100)
                         .crossFade()
                         .into(headerphoto);
-
-
                 //converUri(uri);
             }
         }

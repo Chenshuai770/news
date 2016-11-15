@@ -1,4 +1,4 @@
-package com.cs.news1.adpter;
+package com.cs.news1.act_adpter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
