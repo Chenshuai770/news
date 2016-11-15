@@ -97,7 +97,9 @@ public class TabPhoto extends BaseFragment {
                 Bundle bundle=new Bundle();
                 //List<Photo.ResultsBean> mlist=new ArrayList<>(); mlist的类型
                 bundle.putParcelableArrayList("myurl", (ArrayList<? extends Parcelable>) mlist);
+                bundle.putInt("pos",position);
                 intent.putExtras(bundle);
+
                 startActivity(intent);
 
             }

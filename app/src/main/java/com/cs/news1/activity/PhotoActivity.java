@@ -58,6 +58,7 @@ public class PhotoActivity extends Activity {
         //postion= (int) bundle.get("pos");
         Intent intent = getIntent();
         mlist=intent.getParcelableArrayListExtra("myurl");
+        postion= (int) intent.getExtras().get("pos");
 
         L.d("TTT",mlist.size()+"");
         for (int i = 0; i < mlist.size(); i++) {
@@ -98,6 +99,6 @@ public class PhotoActivity extends Activity {
 
         adapter=new VpAdapter(this,viewList);
         viewPager.setAdapter(adapter);
-        //viewPager.setCurrentItem(postion);
+        viewPager.setCurrentItem(postion);
     }
 }
