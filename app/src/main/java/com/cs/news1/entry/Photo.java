@@ -3,14 +3,13 @@ package com.cs.news1.entry;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by chenshuai on 2016/11/8.
  */
 
-public class Photo implements Parcelable {
+public class Photo {
 
     /**
      * error : false
@@ -164,7 +163,7 @@ public class Photo implements Parcelable {
             this.who = in.readString();
         }
 
-        public static final Creator<ResultsBean> CREATOR = new Creator<ResultsBean>() {
+        public static final Parcelable.Creator<ResultsBean> CREATOR = new Parcelable.Creator<ResultsBean>() {
             public ResultsBean createFromParcel(Parcel source) {
                 return new ResultsBean(source);
             }
@@ -174,34 +173,4 @@ public class Photo implements Parcelable {
             }
         };
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte(error ? (byte) 1 : (byte) 0);
-        dest.writeList(this.results);
-    }
-
-    public Photo() {
-    }
-
-    protected Photo(Parcel in) {
-        this.error = in.readByte() != 0;
-        this.results = new ArrayList<ResultsBean>();
-        in.readList(this.results, List.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
-        public Photo createFromParcel(Parcel source) {
-            return new Photo(source);
-        }
-
-        public Photo[] newArray(int size) {
-            return new Photo[size];
-        }
-    };
 }
