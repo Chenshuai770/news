@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.cs.news1.R;
 import com.cs.news1.entry.Recreation;
 import com.cs.news1.utils.PicassoUtils;
-import com.youth.banner.Banner;
 
 import java.util.List;
 
@@ -208,14 +207,14 @@ public class JokeAdpter extends RecyclerView.Adapter<JokeAdpter.JokeViewHolder> 
      *
      */
     class JokeViewHolder extends RecyclerView.ViewHolder {
-        public Banner banner;
+        public ImageView banner;
         public ImageView image;
         public TextView title;
         public TextView content;
         public JokeViewHolder(View itemView) {
             super(itemView);
             if (itemView == mHeaderView){
-                banner= (Banner) itemView.findViewById(R.id.item_joke_banner);
+                banner= (ImageView) itemView.findViewById(R.id.item_joke_banner);
                 return;
             }
             if (itemView == mFooterView){

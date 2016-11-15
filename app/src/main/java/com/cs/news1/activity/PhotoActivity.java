@@ -48,13 +48,20 @@ public class PhotoActivity extends Activity {
     }
     private void initView() {
         viewPager = (ViewPager) findViewById(R.id.vp_photo);
-        Intent intent = getIntent();
+      /*  Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        myUrls= (List<String>) bundle.get("myurl");
+        myUrls= (List<String>) bundle.get("myurl");*/
+
+      /*  Intent intent = getIntent();
+    //  List<Photo.ResultsBean> mlist=new ArrayList<>();
+        mlist= (List<Photo.ResultsBean>) intent.getSerializableExtra("myurl");*/
         //postion= (int) bundle.get("pos");
-        L.d("TTT",myUrls.size()+"");
-        for (int i = 0; i < myUrls.size(); i++) {
-            String url = myUrls.get(i);
+        Intent intent = getIntent();
+        mlist=intent.getParcelableArrayListExtra("myurl");
+
+        L.d("TTT",mlist.size()+"");
+        for (int i = 0; i < mlist.size(); i++) {
+            String url = mlist.get(i).getUrl();
             View view = LayoutInflater.from(this).inflate(R.layout.photoview, null);
             PhotoView photoView= (PhotoView) view.findViewById(R.id.pv_photo);
             final ProgressBar progressBar= (ProgressBar) view.findViewById(R.id.progress);

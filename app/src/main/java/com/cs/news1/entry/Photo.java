@@ -1,12 +1,16 @@
 package com.cs.news1.entry;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by chenshuai on 2016/11/8.
  */
 
-public class Photo{
+public class Photo implements Parcelable {
 
     /**
      * error : false
@@ -44,7 +48,7 @@ public class Photo{
         this.results = results;
     }
 
-    public static class ResultsBean {
+    public static class ResultsBean implements Parcelable {
         private String _id;
         private String createdAt;
         private String desc;
@@ -126,5 +130,78 @@ public class Photo{
         public void setWho(String who) {
             this.who = who;
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(this._id);
+            dest.writeString(this.createdAt);
+            dest.writeString(this.desc);
+            dest.writeString(this.publishedAt);
+            dest.writeString(this.source);
+            dest.writeString(this.type);
+            dest.writeString(this.url);
+            dest.writeByte(used ? (byte) 1 : (byte) 0);
+            dest.writeString(this.who);
+        }
+
+        public ResultsBean() {
+        }
+
+        protected ResultsBean(Parcel in) {
+            this._id = in.readString();
+            this.createdAt = in.readString();
+            this.desc = in.readString();
+            this.publishedAt = in.readString();
+            this.source = in.readString();
+            this.type = in.readString();
+            this.url = in.readString();
+            this.used = in.readByte() != 0;
+            this.who = in.readString();
+        }
+
+        public static final Creator<ResultsBean> CREATOR = new Creator<ResultsBean>() {
+            public ResultsBean createFromParcel(Parcel source) {
+                return new ResultsBean(source);
+            }
+
+            public ResultsBean[] newArray(int size) {
+                return new ResultsBean[size];
+            }
+        };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte(error ? (byte) 1 : (byte) 0);
+        dest.writeList(this.results);
+    }
+
+    public Photo() {
+    }
+
+    protected Photo(Parcel in) {
+        this.error = in.readByte() != 0;
+        this.results = new ArrayList<ResultsBean>();
+        in.readList(this.results, List.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
+        public Photo createFromParcel(Parcel source) {
+            return new Photo(source);
+        }
+
+        public Photo[] newArray(int size) {
+            return new Photo[size];
+        }
+    };
 }

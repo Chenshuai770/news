@@ -18,7 +18,6 @@ import com.cs.news1.fragment.fm_adapter.JokeAdater.JokeAdpter;
 import com.cs.news1.views.EndLessOnScrollListener;
 import com.cs.news1.views.MyDecoration;
 import com.cs.news1.views.NetUtils;
-import com.youth.banner.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -239,7 +238,14 @@ public class TabJoke extends BaseFragment {
 
     private void setHeaderView(RecyclerView view) {
         View header = LayoutInflater.from(getContext()).inflate(R.layout.item_joke_header, view, false);
-        Banner banner = (Banner) header.findViewById(R.id.item_joke_banner);
+      /*  Banner banner = (Banner) header.findViewById(R.id.item_joke_banner);
+        String[] imageurls = getActivity().getResources().getStringArray(R.array.url);
+        List<String > mlist=new ArrayList<>();
+        for (int i = 0; i < imageurls.length; i++) {
+            mlist.add(imageurls[i]);
+        }
+
+        banner.setImages(mlist);*/
         adapter.setHeaderView(header);
     }
 

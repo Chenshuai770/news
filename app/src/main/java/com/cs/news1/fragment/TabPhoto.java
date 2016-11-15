@@ -2,6 +2,7 @@ package com.cs.news1.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -40,7 +41,7 @@ public class TabPhoto extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fm_photo, null);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_photo);
@@ -81,12 +82,24 @@ public class TabPhoto extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                //Log.d("BBB",myUrls.size()+"");
-                Intent intent=new Intent(getContext(), PhotoActivity.class);
+             /*   Intent intent=new Intent(getContext(), PhotoActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putStringArrayList("myurl", (ArrayList<String>) myUrls);
                 bundle.putInt("pos",position);
+                intent.putExtras(bundle);*/
+             /*   Intent intent=new Intent(getContext(), PhotoActivity.class);
+                Bundle bundle=new Bundle();
+                //List<Photo.ResultsBean> mlist=new ArrayList<>(); mlist的类型
+                bundle.putSerializable("myurl", (Serializable) mlist);
+                intent.putExtras(bundle);
+                startActivity(intent);*/
+                Intent intent=new Intent(getContext(), PhotoActivity.class);
+                Bundle bundle=new Bundle();
+                //List<Photo.ResultsBean> mlist=new ArrayList<>(); mlist的类型
+                bundle.putParcelableArrayList("myurl", (ArrayList<? extends Parcelable>) mlist);
                 intent.putExtras(bundle);
                 startActivity(intent);
+
             }
         });
         return view;

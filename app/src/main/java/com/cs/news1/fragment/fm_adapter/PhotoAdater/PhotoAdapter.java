@@ -105,7 +105,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoViewholder> {
             @Override
             public void onClick(View view) {
                 int pos = holder.getLayoutPosition();
-                mOnItemClickLitener.onItemClick(holder.imageView,position);
+                mOnItemClickLitener.onItemClick(holder.imageView,pos);
             }
         });
 
