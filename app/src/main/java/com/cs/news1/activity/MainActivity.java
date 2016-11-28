@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.cs.news1.R;
-import com.cs.news1.adpter.MyAdapter;
+import com.cs.news1.activity.adpter.MyAdapter;
 import com.cs.news1.base.BaseFragment;
 import com.cs.news1.fragment.TabJoke;
 import com.cs.news1.fragment.TabNews;
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         mList_fm.add(new TabVideo());
 
 
-        mList_title.add("新闻");
+        mList_title.add("新闻一刻");
         mList_title.add("笑话");
         mList_title.add("图片");
         mList_title.add("视频");

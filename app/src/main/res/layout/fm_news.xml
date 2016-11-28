@@ -4,38 +4,17 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  <!--<android.support.v4.widget.SwipeRefreshLayout
+  <android.support.v4.widget.SwipeRefreshLayout
       android:id="@+id/sr_news"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
-     <ListView
-         android:id="@+id/iv_news"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent">
-     </ListView>
-  </android.support.v4.widget.SwipeRefreshLayout>-->
-    <com.jude.rollviewpager.RollPagerView
-        android:id="@+id/rollview"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        app:rollviewpager_play_delay="3000"
-        />
-  <android.support.v4.widget.SwipeRefreshLayout
-      android:id="@+id/swpLayout"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
-    <ListView
-        android:id="@+id/iv_news"
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rl_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-    </ListView>
-
+    </android.support.v7.widget.RecyclerView>
   </android.support.v4.widget.SwipeRefreshLayout>
-
-
-
-
 
 </LinearLayout>
