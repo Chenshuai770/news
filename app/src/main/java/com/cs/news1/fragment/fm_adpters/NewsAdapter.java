@@ -1,7 +1,9 @@
 package com.cs.news1.fragment.fm_adpters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,9 @@ import com.bumptech.glide.Glide;
 import com.cs.news1.R;
 import com.cs.news1.entry.News;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by chenshuai on 2016/10/12.
@@ -22,6 +26,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHodler>{
     private Context context;
     private List<News.ResultBean.DataBean> mList;
     private OnItemClickLitener mOnItemClickLitener;
+    private static final String FILE_NAME = "share";
+    private Map<Integer,Boolean> map=new HashMap<>();
+    private boolean isClick=false;
+
+
+
     public interface OnItemClickLitener{
         void onItemClick(View view,int position);
     }
@@ -47,27 +57,54 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHodler>{
     }
 
     @Override
-    public void onBindViewHolder(final NewsHodler holder, int position) {
+    public void onBindViewHolder(final NewsHodler holder, final int position) {
         holder.mTitle.setText(mList.get(position).getAuthor_name());
         holder.mContent.setText(mList.get(position).getTitle());
         holder.mTime.setText(mList.get(position).getDate());
         Glide.with(context).load(mList.get(position).getThumbnail_pic_s()).centerCrop().into(holder.mImageview);
-        if (mOnItemClickLitener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position1 = holder.getLayoutPosition();
-                    mOnItemClickLitener.onItemClick(holder.itemView,position1);
-                }
-            });
+
+        if (map.get(position)!=null) {
+            isClick=map.get(position);
+            map.remove(position);
+            Log.d("TAG",isClick+"");
+        }else {
+            isClick=false;
         }
+
+        if (isClick) {
+            holder.mTitle.setTextColor(Color.parseColor("#808080"));
+            holder.mContent.setTextColor(Color.parseColor("#808080"));
+            holder.mTime.setTextColor(Color.parseColor("#808080"));
+        } else {
+            holder.mTitle.setTextColor(Color.parseColor("#141414"));
+            holder.mContent.setTextColor(Color.parseColor("#141414"));
+            holder.mTime.setTextColor(Color.parseColor("#141414"));
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isClick) {
+                    map.put(position, true);
+                    notifyDataSetChanged();
+                }
+                if (mOnItemClickLitener != null) {
+                    int position1 = holder.getLayoutPosition();
+                    mOnItemClickLitener.onItemClick(holder.itemView, position1);
+                }else{
+                    new Throwable(new NullPointerException("mOnItemClickLitener is not null"));
+                }
+            }
+        });
+
+
+
     }
 
     class NewsHodler extends RecyclerView.ViewHolder {
-        public TextView mTitle;
-        public TextView mContent;
-        public TextView mTime;
-        public ImageView mImageview;
+        TextView mTitle;
+        TextView mContent;
+        TextView mTime;
+        ImageView mImageview;
         public NewsHodler(View itemView) {
             super(itemView);
             mTitle= (TextView) itemView.findViewById(R.id.tv_news_title);

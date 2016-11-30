@@ -1,5 +1,8 @@
 package com.cs.news1.entry;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -67,7 +70,7 @@ public class News {
             this.data = data;
         }
 
-        public static class DataBean {
+        public static class DataBean implements Parcelable {
             /**
              * title : 小伙被发现上吊身亡，头七托梦给奶奶，真相让人愤怒
              * date : 2016-11-28 16:46
@@ -171,6 +174,51 @@ public class News {
             public void setRealtype(String realtype) {
                 this.realtype = realtype;
             }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(this.title);
+                dest.writeString(this.date);
+                dest.writeString(this.author_name);
+                dest.writeString(this.thumbnail_pic_s);
+                dest.writeString(this.thumbnail_pic_s02);
+                dest.writeString(this.thumbnail_pic_s03);
+                dest.writeString(this.url);
+                dest.writeString(this.uniquekey);
+                dest.writeString(this.type);
+                dest.writeString(this.realtype);
+            }
+
+            public DataBean() {
+            }
+
+            protected DataBean(Parcel in) {
+                this.title = in.readString();
+                this.date = in.readString();
+                this.author_name = in.readString();
+                this.thumbnail_pic_s = in.readString();
+                this.thumbnail_pic_s02 = in.readString();
+                this.thumbnail_pic_s03 = in.readString();
+                this.url = in.readString();
+                this.uniquekey = in.readString();
+                this.type = in.readString();
+                this.realtype = in.readString();
+            }
+
+            public static final Parcelable.Creator<DataBean> CREATOR = new Parcelable.Creator<DataBean>() {
+                public DataBean createFromParcel(Parcel source) {
+                    return new DataBean(source);
+                }
+
+                public DataBean[] newArray(int size) {
+                    return new DataBean[size];
+                }
+            };
         }
     }
 }

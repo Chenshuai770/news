@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private MyAdapter mAdapter;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         tab_main = (TabLayout) findViewById(R.id.tab_main);
         vp_main = (ViewPager) findViewById(R.id.vp_main);
+
        // tab_main.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         mList_title=new ArrayList<>();
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mList_title.add("新闻一刻");
-        mList_title.add("笑话");
+        mList_title.add("轻松一刻");
         mList_title.add("图片");
         mList_title.add("视频");
 

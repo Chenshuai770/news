@@ -1,15 +1,13 @@
 package com.cs.news1.application;
 
 import android.app.Application;
+import android.text.TextUtils;
 import android.util.Log;
-
-import com.cs.news1.utils.OkNetUtils;
 
 import java.io.File;
 import java.io.IOException;
 
 import okhttp3.Cache;
-import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -80,7 +78,7 @@ public class MyApplication extends Application{
 
              */
 
-          /*  Request request = chain.request();
+            Request request = chain.request();
              Log.d(TAG, "request:" + request);
             Response response = chain.proceed(request);
             Log.d(TAG, "response:" + response);
@@ -94,8 +92,8 @@ public class MyApplication extends Application{
             return response.newBuilder()
                     .header("Cache-Control",cacheCotrol)
                     .removeHeader("Pragma")
-                    .build();*/
-            //方案二：无网读缓存，有网根据过期时间重新请求
+                    .build();
+         /*   //方案二：无网读缓存，有网根据过期时间重新请求
             boolean conection = OkNetUtils.hasNetWorkConection(MyApplication.getInstance());
             Request request = chain.request();
             //如果没有网路的话
@@ -123,7 +121,7 @@ public class MyApplication extends Application{
                         .build();
 
             }
-            return response;
+            return response;*/
         }
     };
     //查询url 响应体的代码
