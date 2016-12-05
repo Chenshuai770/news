@@ -1,6 +1,8 @@
 package com.cs.news1.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.cs.news1.R;
+import com.cs.news1.activity.PhotoActivity;
 import com.cs.news1.application.MyApplication;
 import com.cs.news1.base.BaseFragment;
 import com.cs.news1.entry.Photos;
@@ -43,6 +46,7 @@ public class TabPhoto extends BaseFragment {
     private int count=40;
     private int page=1;
     private boolean refresh=false;
+    private String url;
 
     @Nullable
     @Override
@@ -99,16 +103,13 @@ public class TabPhoto extends BaseFragment {
                .subscribe(new Subscriber<Photos>() {
                    @Override
                    public void onCompleted() {
-
                    }
 
                    @Override
                    public void onError(Throwable e) {
                        Toast.makeText(getContext(), "请求数据失败", Toast.LENGTH_SHORT).show();
                        mSrPhoto.setRefreshing(refresh);
-
                    }
-
                    @Override
                    public void onNext(Photos photos) {
                        mList.addAll(photos.getResults());
@@ -130,20 +131,24 @@ public class TabPhoto extends BaseFragment {
                 android.R.color.holo_green_light);
 
         mRlPhoto = (RecyclerView) view.findViewById(R.id.rl_photo);
-        mRlPhoto.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        mRlPhoto.setLayoutManager(layoutManager);
         mRlPhoto.addItemDecoration(new SpacesItemDecoration(2));
         mAdapter=new PhotosAdapter(getContext(),mList);
-        View footer=LayoutInflater.from(getContext()).inflate(R.layout.item_photo_footer,mRlPhoto,false);
-        mAdapter.setmFooterView(footer);
-
         mRlPhoto.setAdapter(mAdapter);
 
         mAdapter.setOnItemClickLitener(new PhotosAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(), "你点击了"+position, Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getContext(), PhotoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("photoList", (ArrayList<? extends Parcelable>) mList);
+                bundle.putInt("photoPos",position);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
+
        // mRlPhoto.setAdapter();
 
     }
