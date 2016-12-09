@@ -25,12 +25,12 @@
       android:id="@+id/swpLayout"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
-    <ExpandableListView
+    <ListView
         android:id="@+id/iv_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ExpandableListView>
+    </ListView>
 
   </android.support.v4.widget.SwipeRefreshLayout>
 
