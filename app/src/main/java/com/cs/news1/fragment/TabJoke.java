@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -65,7 +66,7 @@ public class TabJoke extends BaseFragment {
     private static final String BASEURL="http://www.tngou.net";
     private ViewPager viewPager;
     // 默认轮播时间
-    private int delay = 3000;
+    private int delay = 1000;
     MyViewpageAdapter myViewpageAdapter;
     // 轮播当前位置
     private int mCurrentPosition = 0;
@@ -343,7 +344,7 @@ public class TabJoke extends BaseFragment {
                 }
                 ponitpos = mCurrentPosition - 1;
                 int c = viewPager.getCurrentItem();
-                Log.e("c",c+"");
+               // Log.e("c",c+"");
                 for (int i = 0; i <mViews.size(); i++) {
                     if(c==0||c==mViews.size()-1){
                         break;
@@ -367,7 +368,7 @@ public class TabJoke extends BaseFragment {
                     case 4:
                         break;
                 }*/
-                Log.e("c",c+"");
+              //  Log.e("c",c+"");
 
                 // TODO: 2016/11/17  这里实现的方式有两种,从不同思路去实现,有兴趣可以参考以上代码,新手会遇到坑
                 for (int i = 0; i < mIndicators.length; i++) {
@@ -400,19 +401,71 @@ public class TabJoke extends BaseFragment {
                 });
         viewPager.setCurrentItem(1, false);
         // 初始化指示器图片集合
-        myViewpageAdapter.setMyViewListenner(new MyViewpageAdapter.MyViewListenner() {
+        /*myViewpageAdapter.setMyViewListenner(new MyViewpageAdapter.MyViewListenner() {
             @Override
             public void onItemClick(int possiton) {
                 Toast.makeText(getContext(), "你点击了viewpager的第" + possiton + "个", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
         //缺少手指按下,onTouch方法不管用
+        viewPager.setOnTouchListener(new View.OnTouchListener() {
+            int flage=0;
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        flage=0;
+                        subscribe.unsubscribe();
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        if (flage == 0) {
+                            int item = viewPager.getCurrentItem();
+                            for (int i = 0; i < mViews.size(); i++) {
+                                if (item == 0) {
+                                    item = mViews.size() - 1;
+
+                                } else if (item == mViews.size() - 1) {
+                                    item = 1;
+                                } else {
+                                    item = item - 1;
+                                    break;
+                                }
+                            }
+                            if (item == 0) {
+                                Log.e("TEE", "我是高手" + item);
+                            } else if (item == 1) {
+                                Log.e("TEE", "我是高手" + item);
+                            } else if (item == 2) {
+                                Log.e("TEE", "我是高手" + item);
+                            } else if (item == 3) {
+                                Log.e("TEE", "我是高手" + item);
+                            } else if (item == 4) {
+                                Log.e("TEE", "我是高手" + item);
+                            } else {
+                                Log.e("TEE", "我是高手" + item);
+                                break;
+                            }
+                        }
+
+                        subscribe = Observable.interval(delay, TimeUnit.MILLISECONDS)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Action1<Long>() {
+                                    @Override
+                                    public void call(Long aLong) {
+                                        mCurrentPosition++;
+                                        if (viewPager != null)
+                                            viewPager.setCurrentItem(mCurrentPosition, false);
+                                    }
+                                });
+                        break;
+                }
+                return false;
+            }
+        });
         adapter.setHeaderView(header);
 
     }
-
-
-
-
 
 }

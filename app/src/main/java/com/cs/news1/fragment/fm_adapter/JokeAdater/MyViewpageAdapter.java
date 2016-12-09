@@ -38,8 +38,34 @@ public class MyViewpageAdapter extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, final int position) {
+    public Object instantiateItem(ViewGroup container, int position) {
         View view=mViews.get(position);
+        int lastposition=mViews.size()-1;
+        int firstposition=0;
+        if (position == lastposition) {
+             position = 1;
+        }
+        if (position==firstposition){
+            position=lastposition-1;
+        }
+        //这里涉及到的是点击事件
+        final int finalPosition = position;
+       /* view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        Toast.makeText(context, "我是图片的down"+ finalPosition +"个", Toast.LENGTH_SHORT).show();
+                        return false;
+                  *//*  case MotionEvent.ACTION_UP:
+                        Toast.makeText(context, "我是图片的up"+vPonsiton+"个", Toast.LENGTH_SHORT).show();
+                        return false;*//*
+
+                }
+                return false;
+            }
+        });*/
+/*
         if (myViewListenner != null){
             view.setOnClickListener(new View.OnClickListener() {
                 // 处理极端情况，此情况出现在轮播最后一张图切换到第一张图，ViewPaper实现轮播原理决定的。
@@ -55,6 +81,15 @@ public class MyViewpageAdapter extends PagerAdapter {
                 }
             });
         }
+
+*/
+    /*    vPonsiton = position;
+        //  java.lang.ArithmeticException: divide by zero size为0的情况下
+        if (vPonsiton >size && size!=0) {
+            vPonsiton = vPonsiton % size;
+        }*/
+
+
         container.addView(view);
         return view;
     }
