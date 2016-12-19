@@ -24,6 +24,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.cs.news1.R;
+import com.cs.news1.entry.PhotoViewImageUrl;
 import com.cs.news1.entry.Photos;
 
 import java.io.File;
@@ -38,6 +39,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.http.GET;
+import retrofit2.http.Url;
+import rx.Observable;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -54,6 +58,10 @@ public class PhotoActivity extends Activity {
     private TextView mTvActPhotocount;
     private ImageButton mIvActPhotodown;
     private int downPosition=-1;
+    private interface DownLoadImage{
+        @GET
+        Observable<PhotoViewImageUrl> downloadPicFromNet(@Url String url);
+    }
 
 
     @Override
@@ -168,6 +176,56 @@ public class PhotoActivity extends Activity {
                         }
                     }
                 }).start();
+
+/*
+                if (downPosition==-1) {
+                    Observable.from(new String[]{mList.get(pos).getUrl()})
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<String>() {
+                                @Override
+                                public void onCompleted() {
+                                    Toast.makeText(PhotoActivity.this, "图片已下载", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Toast.makeText(PhotoActivity.this, "下载未成功", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                                @Override
+                                public void onNext(String s) {
+                                    Log.d("TGG",s);
+                                    saveImageToSdCard(s);
+                                }
+                            });
+
+                }else {
+                    Observable.from(new String[]{mList.get(downPosition).getUrl()})
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<String>() {
+                                @Override
+                                public void onCompleted() {
+                                   // Toast.makeText(PhotoActivity.this, "图片已下载", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                   // Toast.makeText(PhotoActivity.this, "下载未成功", Toast.LENGTH_SHORT).show();
+                                    Log.d("TGG",e.getMessage());
+                                }
+
+                                @Override
+                                public void onNext(String s) {
+                                    Log.d("TGG",s);
+                                    saveImageToSdCard(s);
+                                }
+                            });
+
+                }
+*/
             }
         });
     }
@@ -230,6 +288,7 @@ public class PhotoActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     class PhotoViewAdapter extends PagerAdapter {
