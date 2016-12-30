@@ -38,6 +38,13 @@ public class MyApplication extends Application{
     }
 
     /**
+     * 通过Context.getExternalFilesDir()方法可以获取到 SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
+     通过Context.getExternalCacheDir()方法可以获取到 SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
+
+     如果使用上面的方法，当你的应用在被用户卸载后，SDCard/Android/data/你的应用的包名/ 这个目录下的所有文件都会被删除，不会留下垃圾信息。
+     而且上面二个目录分别对应 设置->应用->应用详情里面的”清除数据“与”清除缓存“选项
+     */
+    /**
      * Application.getCacheDir()方法用于获取/data/data/<application package>/cache目录
      * Application.getFilesDir()方法用于获取/data/data/<application package>/files目录
      * Context.getExternalFilesDir()方法可以获取到 SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
@@ -51,7 +58,9 @@ public class MyApplication extends Application{
         // client.retryOnConnectionFailure(true);//重新连接
         client.connectTimeout(15 * 1000, java.util.concurrent.TimeUnit.MILLISECONDS);//网络延时为15
         //设置缓存路径
-        File myCache = new File(application.getCacheDir(), "myCache");
+
+         File myCache = new File(application.getApplicationContext().getExternalFilesDir("news"), "myCache"); //对应手机里面的清除数据,
+        //File myCache = new File(application.getCacheDir(), "myCache");
         //设置缓存 10M
         Cache cache = new Cache(myCache, 10 * 1024 * 1024);
         client.cache(cache);

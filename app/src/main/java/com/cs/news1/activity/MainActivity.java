@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         mList_title.add("新闻一刻");
         mList_title.add("轻松一刻");
-        mList_title.add("图片");
-        mList_title.add("视频");
+        mList_title.add("美图一刻");
+        mList_title.add("视频一刻");
 
         mAdapter=new MyAdapter(getSupportFragmentManager(),mList_fm,mList_title);
         vp_main.setAdapter(mAdapter);

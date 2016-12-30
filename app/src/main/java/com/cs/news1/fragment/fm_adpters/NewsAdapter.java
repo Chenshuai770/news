@@ -30,8 +30,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHodler>{
     private Map<Integer,Boolean> map=new HashMap<>();
     private boolean isClick=false;
 
-
-
     public interface OnItemClickLitener{
         void onItemClick(View view,int position);
     }

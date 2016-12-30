@@ -97,7 +97,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.PhotoHolde
             Glide.with(context)
                     .load(mList.get(position).getUrl())
                     .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.imageView);
             if (mOnItemClickLitener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -10,26 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.cs.news1.Http.JokeLoader;
 import com.cs.news1.R;
-import com.cs.news1.application.MyApplication;
 import com.cs.news1.base.BaseFragment;
 import com.cs.news1.entry.Jokes;
 import com.cs.news1.fragment.jokeAdpter.JokeAdpter;
-import com.cs.news1.fragment.jokeAdpter.MyJokes;
-import com.cs.news1.uri.Uri;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by chenshuai on 2016/10/12.
@@ -75,7 +67,6 @@ public class TabJoke extends BaseFragment {
                     }
                     page++;
                     initData(page);
-
                 }
             });
 
@@ -85,22 +76,14 @@ public class TabJoke extends BaseFragment {
 
     private void initData(int page) {
         this.page=page;
-        Retrofit retrofit = new Retrofit.Builder()
+       /* Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Uri.JOKESURI)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(MyApplication.defalutOkHttpClient())
                 .build();
         final MyJokes myJokes = retrofit.create(MyJokes.class);
-
-        options.put("sort",sort);
-        options.put("page",page+"");
-        options.put("pagesize",pagesize+"");
-        options.put("time", time);
-        options.put("key",key);
-
-        Observable<Jokes> observable = myJokes.getData(options);
-
+           Observable<Jokes> observable = myJokes.getData(options);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Jokes>() {
@@ -120,6 +103,54 @@ public class TabJoke extends BaseFragment {
                         mSrJoke.setRefreshing(refresh);
                     }
                 });
+*/
+       // MyJokes myJokes= RetrofitServiceManager.getInstance().create(MyJokes.class);
+
+        options.put("sort",sort);
+        options.put("page",page+"");
+        options.put("pagesize",pagesize+"");
+        options.put("time", time);
+        options.put("key",key);
+
+       /* new JokeLoader(options).observable().subscribe(new Subscriber<Jokes>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Jokes jokes) {
+
+            }
+        });*/
+
+        JokeLoader jokeLoader = new JokeLoader(options);
+        jokeLoader.observable().subscribe(new Subscriber<Jokes>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Toast.makeText(getContext(), "请求数据失败", Toast.LENGTH_SHORT).show();
+                mSrJoke.setRefreshing(false);
+            }
+
+            @Override
+            public void onNext(Jokes jokes) {
+                mList.addAll(jokes.getResult().getData());
+                mAdapter.notifyDataSetChanged();
+                refresh=false;
+                mSrJoke.setRefreshing(refresh);
+            }
+        });
+
+
     }
 
     private void initView(View mRootview) {
@@ -133,9 +164,6 @@ public class TabJoke extends BaseFragment {
         //mRlJoke.addItemDecoration(new MyDecoration(getContext(),MyDecoration.VERTICAL_LIST));
         mAdapter=new JokeAdpter(getContext(),mList);
         mRlJoke.setAdapter(mAdapter);
-
-
-
     }
 
     @Override

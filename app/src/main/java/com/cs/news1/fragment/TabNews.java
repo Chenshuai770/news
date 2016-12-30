@@ -150,8 +150,6 @@ public class TabNews extends BaseFragment {
                         }
                     });
 
-
-
     }
 
     private void initView(View rootview) {
@@ -167,8 +165,6 @@ public class TabNews extends BaseFragment {
         mRecyclerView.addItemDecoration(new MyDecoration(getContext(),MyDecoration.VERTICAL_LIST));
         mAdapter=new NewsAdapter(getContext(),mList);
         mRecyclerView.setAdapter(mAdapter);
-
-
 
     }
 
