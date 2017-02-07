@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.cs.news1.Http.JokeLoader;
+import com.cs.news1.http.JokeLoader;
 import com.cs.news1.R;
 import com.cs.news1.base.BaseFragment;
 import com.cs.news1.entry.Jokes;
@@ -171,4 +171,6 @@ public class TabJoke extends BaseFragment {
         page=1;
         super.onDestroy();
     }
+
+
 }

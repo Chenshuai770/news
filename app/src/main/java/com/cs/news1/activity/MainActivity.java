@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
         mAdapter=new MyAdapter(getSupportFragmentManager(),mList_fm,mList_title);
         vp_main.setAdapter(mAdapter);
+
         tab_main.setupWithViewPager(vp_main);
         tab_main.setTabsFromPagerAdapter(mAdapter);//虽然过时了但是不能去掉，去掉后
         //如果是滑动操作的话没事，但是使用标签点击的时候就不行了。
-
 
     }
 }

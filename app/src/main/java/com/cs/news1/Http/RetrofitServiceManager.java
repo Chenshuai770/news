@@ -1,4 +1,4 @@
-package com.cs.news1.Http;
+package com.cs.news1.http;
 
 import com.cs.news1.application.MyApplication;
 import com.cs.news1.uri.Uri;
